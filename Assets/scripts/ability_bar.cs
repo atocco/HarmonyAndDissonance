@@ -19,6 +19,7 @@ public class ability_bar : MonoBehaviour {
 	public GameObject pandaIcon;
 	public GameObject birdIcon;
 	private string[] abilityStack;
+	private GameObject[] iconStack;
 	private int cursor;				// keep track of our position in the ability array
 
 	// Use this for initialization
@@ -31,6 +32,7 @@ public class ability_bar : MonoBehaviour {
 		baseY = gameObject.transform.position.y;
 		cursor = 0;
 		abilityStack = new string[3];	// only three inputs allowed on the stack at a time
+		iconStack = new GameObject[3];	// basically same as above but holds the icon objects
 	}
 	
 	// Update is called once per frame
@@ -44,7 +46,6 @@ public class ability_bar : MonoBehaviour {
 		switch (input) {
 		case "bee":
 			if (cursor < 3) {
-				Debug.Log (cursor);
 				abilityStack [cursor] = "bee";
 				showIcon (beeIcon);
 				cursor++;
@@ -93,24 +94,34 @@ public class ability_bar : MonoBehaviour {
 
 	public void popAbilities() {
 		Debug.Log ("drained ability queue");
-		//foreach (string butt in abilityStack){
-		//	Debug.Log(butt);
-		//}
+		// TODO write code that removes the icons
+		foreach(GameObject icon in iconStack){	// empty the icon stack if populated
+			if (icon != null) {
+				Destroy (icon);
+			}
+		}
+		iconStack = new GameObject[3];		// reset the stack
 		abilityStack = new string[3];		// empty the stack
-		cursor = 0;				// reset the cursor
+		cursor = 0;							// reset the cursor
 	}
 
 	// The following collection of methods display the ability icons in the appropriate place in the bar
 	private void showIcon(GameObject icon) {
 		if (cursor == 0) {
-			float finalX = (baseX + x1);
-			Instantiate (icon).transform.position = new Vector3 (finalX, baseY, 0);
+			float finalX = (baseX + x1);							// calculate the offset x value
+			Vector3 pos = new Vector3 (finalX, baseY, 0);			// establish the location of the sprite
+			GameObject clone = Instantiate (icon, pos, gameObject.transform.rotation);	// create the sprite
+			iconStack[cursor] = clone;
 		} else if (cursor == 1) {
 			float finalX = (baseX + x2);
-			Instantiate (icon).transform.position = new Vector3 (finalX, baseY, 0);
+			Vector3 pos = new Vector3 (finalX, baseY, 0);
+			GameObject clone = Instantiate (icon, pos, gameObject.transform.rotation);
+			iconStack [cursor] = clone;
 		} else {
 			float finalX = (baseX + x3);
-			Instantiate (icon).transform.position = new Vector3 (finalX, baseY, 0);
+			Vector3 pos = new Vector3 (finalX, baseY, 0);
+			GameObject clone = Instantiate (icon, pos, gameObject.transform.rotation);
+			iconStack [cursor] = clone;
 		}
 	}
 

@@ -9,8 +9,12 @@ public class position_keeper : MonoBehaviour {
 	private GameObject[] players;
 	private GameObject[] spaces;
 
+	// THE ORDER OF THIS LIST IS ** UP DOWN LEFT RIGHT **
+	public string[] playerOnSpace;
+
 	// Use this for initialization
 	void Start () {
+		playerOnSpace = new string[4];
 		players = GameObject.FindGameObjectsWithTag ("player");
 		spaces = GameObject.FindGameObjectsWithTag ("space");
 		int index = 0;
@@ -21,7 +25,31 @@ public class position_keeper : MonoBehaviour {
 			y = spaces [index].transform.position.y + 1.25f;
 			p.transform.position = new Vector2(x, y);
 			index++;
-			Debug.Log (p.name);
+		}
+
+		// the following code lets other scripts know who is where
+		// the player and space lists at this point should be in an order where
+		// player[0] is on space[0], etc...
+		index = 0;
+		foreach (GameObject s in spaces) {
+			switch (s.name) {
+			case "player space up":
+				playerOnSpace [0] = players [index].name;
+				break;
+			case "player space down":
+				playerOnSpace [1] = players [index].name;
+				break;
+			case "player space left":
+				playerOnSpace [2] = players [index].name;
+				break;
+			case "player space right":
+				playerOnSpace [3] = players [index].name;
+				break;
+			default:
+				Debug.Log ("something went wrong when assigning players to spaces");
+				break;
+			}
+			index ++;
 		}
 	}
 
