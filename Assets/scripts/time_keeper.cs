@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // this script is intended to take in song data and dictate the window of time a player has to input commands
+// this is to be attached to the rhythm bar
 
 public class time_keeper : MonoBehaviour {
 
 	private static Song s;
 	private static float note_length;
-	private float time_elapsed; 			// this is used with delta time to keep track of time since last note
+	private float input_window; 			// this is used with delta time to establish the time a player has before and after beat input to act
+	private static float frame_time;		// this is the time it takes for a note to pass
+	private float time_passed;				// time since last beat
 	public float beatsPerMin;
 	private SpriteRenderer currsprite;
 	public Sprite[] sprites;				// sprite array of 4 objects for the rhythm bar
@@ -20,37 +23,40 @@ public class time_keeper : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		s = new Song (beatsPerMin);
-		note_length = s.Note_Length;					// calculate the length of notes in the song
+		note_length = s.Note_Length;					// calculate the length of notes in the song in seconds
 		currsprite = GetComponent<SpriteRenderer>(); 	// get the current sprite
 		spriteIndex = 0;
 		music = GameObject.FindGameObjectWithTag ("music");		// load the music player
 		audsrc = music.GetComponent<AudioSource> ();
 		validInput = false;
+		frame_time = Time.fixedDeltaTime;				// time between frames is fixed
+		input_window = 0.1f;					// half the time players have for input
 	}
 	
-	// Update is called once per frame
-	void Update () {
-		time_elapsed = Time.deltaTime + time_elapsed;		// keeping track of time
-		if (time_elapsed >= note_length){					// if about a note length has passed...
-			BeatHit ();										// trigger beat hit and,
-			time_elapsed = time_elapsed % note_length;		// reset time elapsed
+	// FixedUpdate is called 30 times a second and before Update
+	void FixedUpdate () {
+		time_passed = (time_passed + frame_time);
+		if ((time_passed >= note_length) && audsrc.isPlaying){		// if about a note length has passed / music is on...
+			BeatHit ();											// trigger beat hit and,
+			time_passed = time_passed % note_length;		// reset time passed since last beat
 		}
-		// Invoke("BeatHit", note_length);	// find suitable replacement for this
 	}
 
 	// this function triggers actions when the beat hits
-	void BeatHit(){
-		if (audsrc.isPlaying) {							// beat related actions only trigger when the music starts
-			validInput = true;
-			Invoke ("invalidate", Time.deltaTime * 10);
-			spriteIndex++;
-			spriteIndex = spriteIndex % 4;
-			currsprite.sprite = sprites [spriteIndex];	// swapping the sprite rendered for the rhythm meter
-		}
+	private void BeatHit(){							// beat related actions only trigger when the music starts
+		spriteIndex++;
+		spriteIndex = spriteIndex % 4;
+		currsprite.sprite = sprites [spriteIndex];	// swapping the sprite rendered for the rhythm meter
+		Invoke ("invalidate", input_window);		// after the input window time passes, player can't input
 	}
 
-	void invalidate(){
+	private void invalidate(){
 		validInput = false;
+		float negativeSpace = note_length - (2.0f * input_window);	// the space of time the player can't act
+		Invoke ("validate", negativeSpace);							// after that time the player can act again
+	}
+	private void validate(){
+		validInput = true;
 	}
 
 	// A class that keeps track of the song information
