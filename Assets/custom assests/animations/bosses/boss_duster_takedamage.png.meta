@@ -1,0 +1,210 @@
+fileFormatVersion: 2
+guid: f6c1a161d75114649abb66c39d5e6d81
+timeCreated: 1508775283
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: boss_duster_takedamage_0
+    21300002: boss_duster_takedamage_1
+    21300004: boss_duster_takedamage_2
+    21300006: boss_duster_takedamage_3
+    21300008: boss_duster_takedamage_4
+    21300010: boss_duster_takedamage_5
+    21300012: boss_duster_takedamage_6
+    21300014: boss_duster_takedamage_7
+    21300016: boss_duster_takedamage_8
+  serializedVersion: 4
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: -1
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: Standalone
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: WebGL
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: boss_duster_takedamage_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 6144
+        width: 3072
+        height: 3072
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: boss_duster_takedamage_1
+      rect:
+        serializedVersion: 2
+        x: 3072
+        y: 6144
+        width: 3072
+        height: 3072
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: boss_duster_takedamage_2
+      rect:
+        serializedVersion: 2
+        x: 6144
+        y: 6144
+        width: 3072
+        height: 3072
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: boss_duster_takedamage_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3072
+        width: 3072
+        height: 3072
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: boss_duster_takedamage_4
+      rect:
+        serializedVersion: 2
+        x: 3072
+        y: 3072
+        width: 3072
+        height: 3072
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: boss_duster_takedamage_5
+      rect:
+        serializedVersion: 2
+        x: 6144
+        y: 3072
+        width: 3072
+        height: 3072
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: boss_duster_takedamage_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 3072
+        height: 3072
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: boss_duster_takedamage_7
+      rect:
+        serializedVersion: 2
+        x: 3072
+        y: 0
+        width: 3072
+        height: 3072
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: boss_duster_takedamage_8
+      rect:
+        serializedVersion: 2
+        x: 6144
+        y: 0
+        width: 3072
+        height: 3072
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

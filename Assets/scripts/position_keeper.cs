@@ -32,18 +32,23 @@ public class position_keeper : MonoBehaviour {
 		// player[0] is on space[0], etc...
 		index = 0;
 		foreach (GameObject s in spaces) {
+			player_object pscript = players [index].GetComponent<player_object> ();	// gets the related player variables
 			switch (s.name) {
 			case "player space up":
 				playerOnSpace [0] = players [index].name;
+				pscript.position = "up";
 				break;
 			case "player space down":
 				playerOnSpace [1] = players [index].name;
+				pscript.position = "down";
 				break;
 			case "player space left":
 				playerOnSpace [2] = players [index].name;
+				pscript.position = "left";
 				break;
 			case "player space right":
 				playerOnSpace [3] = players [index].name;
+				pscript.position = "right";
 				break;
 			default:
 				Debug.Log ("something went wrong when assigning players to spaces");
@@ -62,4 +67,5 @@ public class position_keeper : MonoBehaviour {
 	public void fullRotate(){
 	
 	}
+		
 }

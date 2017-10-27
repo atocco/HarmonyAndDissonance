@@ -47,13 +47,18 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\scripts\ability_bar.cs" />
+     <Compile Include="Assets\scripts\ability_controller.cs" />
+     <Compile Include="Assets\scripts\boss_object.cs" />
+     <Compile Include="Assets\scripts\crop_duster.cs" />
      <Compile Include="Assets\scripts\music_player.cs" />
+     <Compile Include="Assets\scripts\player_fight_animations.cs" />
      <Compile Include="Assets\scripts\player_object.cs" />
      <Compile Include="Assets\scripts\player_space_down.cs" />
      <Compile Include="Assets\scripts\player_space_left.cs" />
      <Compile Include="Assets\scripts\player_space_right.cs" />
      <Compile Include="Assets\scripts\player_space_up.cs" />
      <Compile Include="Assets\scripts\position_keeper.cs" />
+     <Compile Include="Assets\scripts\proctorScript.cs" />
      <Compile Include="Assets\scripts\time_keeper.cs" />
      <None Include="Assets\Standard Assets\Effects\GlassRefraction\Shaders\GlassStainedBumpDistort.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlendOneOne.shader" />
