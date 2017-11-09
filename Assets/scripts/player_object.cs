@@ -34,6 +34,15 @@ public class player_object : MonoBehaviour {
 	private SpriteRenderer r;	// get the renderer to change colors
 	private Color basecolor;
 
+	// effect icons and player pos
+	private GameObject empowerIcon;
+	private GameObject defendIcon;
+	private GameObject poisonIcon;
+	private GameObject harmonizeIcon;
+	private GameObject healIcon;
+	private float px;
+	private float py;
+
 	void Start(){
 		// get timing objects
 		GameObject tk = GameObject.FindGameObjectWithTag ("timekeeper");
@@ -50,19 +59,22 @@ public class player_object : MonoBehaviour {
 		// record starting color
 		r = this.GetComponent<SpriteRenderer> ();
 		basecolor = r.color;
+		// get status icons
+		empowerIcon = GameObject.Find ("atk");
+		defendIcon = GameObject.Find ("def");
+		poisonIcon = GameObject.Find ("psn");
+		harmonizeIcon = GameObject.Find ("hrm");
+		healIcon = GameObject.Find ("heal");
 	}
 
 	void Update(){
-		
-		if (alive == false) {					// player is kill
-			this.GetComponent<SpriteRenderer> ().enabled = false;
-		}
 
-		if (poisoned == true) {			// coloring for flavor
+		// get player pos
+		px = this.transform.position.x;
+		py = this.transform.position.y;
+
+		if (poisoned == true && alive == true) {			// coloring for flavor
 			r.color = Color.green;
-		}
-		if (health <= 35) {				// indicates low hp
-			r.color = Color.gray;
 		}
 
 		if (beatCounter != timekeeper.beatCounter){		// when a new beat hits apply effects
@@ -107,7 +119,9 @@ public class player_object : MonoBehaviour {
 	}
 
 	public void takeHit(int dmg){
-		r.color = Color.red;
+		if (alive == true) {
+			r.color = Color.red;	
+		}
 		if (defending) {
 			dmg = dmg - 5;		// apply defense value
 			if (dmg < 0) {
@@ -123,7 +137,9 @@ public class player_object : MonoBehaviour {
 	}
 
 	public void heal(int hp){
-		r.color = Color.yellow;		// color when healed
+		Vector3 tpos = new Vector3 (px, py, 0);			// establish the location of the sprite
+		GameObject hi = Instantiate (healIcon, tpos, gameObject.transform.rotation);
+		Destroy (hi, 1.0f);
 		int newHP = health + hp;	// get new health 
 		if (newHP <= maxHP) {		// prevent hp overflow
 			health = newHP;
@@ -135,6 +151,9 @@ public class player_object : MonoBehaviour {
 
 	// status effect methods
 	public void poison(){
+		Vector3 tpos = new Vector3 (px, py, 0);			// establish the location of the sprite
+		GameObject pi = Instantiate (poisonIcon, tpos, gameObject.transform.rotation);
+		Destroy (pi, 1.0f);
 		poisoned = true;
 	}
 
@@ -147,6 +166,9 @@ public class player_object : MonoBehaviour {
 	}
 
 	public void empower(){
+		Vector3 tpos = new Vector3 (px, py, 0);			// establish the location of the sprite
+		GameObject ei = Instantiate (empowerIcon, tpos, gameObject.transform.rotation);
+		Destroy (ei, 1.0f);
 		empowered = true;
 		empowerCounter = beatCounter;	// current beat is held
 		empowerLimit = 5;				// empower always lasts 5 beats
@@ -154,6 +176,9 @@ public class player_object : MonoBehaviour {
 	}
 
 	public void defend(){
+		Vector3 tpos = new Vector3 (px, py, 0);			// establish the location of the sprite
+		GameObject di = Instantiate (defendIcon, tpos, gameObject.transform.rotation);
+		Destroy (di, 1.0f);
 		defending = true;
 		defenseCounter = beatCounter;
 		defenseLimit = 3;
@@ -167,6 +192,11 @@ public class player_object : MonoBehaviour {
 	public void buffHarmony(){
 		// doubles window of time players have for input
 		if (!harmonizing){			// can't stack
+
+			Vector3 tpos = new Vector3 (px, py, 0);			// establish the location of the sprite
+			GameObject hi = Instantiate (harmonizeIcon, tpos, gameObject.transform.rotation);
+			Destroy (hi, 1.0f);
+
 			harmonizing = true;
 			harmonyCounter = beatCounter;
 			harmonyLimit = 9;

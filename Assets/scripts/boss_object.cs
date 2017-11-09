@@ -33,6 +33,15 @@ public class boss_object : MonoBehaviour {
 	private Color basecolor;
 	private Color tempColor;
 
+	// status icons
+	private GameObject poisonIcon;
+	private GameObject stunIcon;
+	private GameObject attackIcon;
+	private GameObject healIcon;
+	// location for status icons
+	private float py;
+	private float px;
+
 	// Use this for initialization
 	void Start () {
 		maxHP = health;		// record total hp
@@ -53,6 +62,15 @@ public class boss_object : MonoBehaviour {
 		// assign colors
 		r = this.GetComponent<SpriteRenderer> ();
 		basecolor = r.color;
+
+		// icon setup
+		poisonIcon = GameObject.Find ("psn");
+		stunIcon = GameObject.Find ("stun");
+		attackIcon = GameObject.Find ("atk");
+		healIcon = GameObject.Find ("heal");
+		// record position
+		px = this.transform.position.x;
+		py = this.transform.position.y;
 	}
 	
 	// Update is called once per frame
@@ -103,24 +121,38 @@ public class boss_object : MonoBehaviour {
 
 	// status effects
 	public void poison(){
+		Vector3 tpos = new Vector3 (px, py, 0);			// establish the location of the sprite
+		GameObject pi = Instantiate (poisonIcon, tpos, gameObject.transform.rotation);
+		Destroy (pi, 1.0f);
 		poisoned = true;
 		poisonCounter = beatCounter;	// current beat is held
 		poisonLimit = 5;				// poison always lasts 5 beats
 	}
 
 	public void stun(){
+		Vector3 tpos = new Vector3 (px, py, 0);			// establish the location of the sprite
+		GameObject si = Instantiate (stunIcon, tpos, gameObject.transform.rotation);
+		Destroy (si, 1.0f);
 		stunned = true;
 		stunCounter = beatCounter;	// current beat is held
 		stunLimit = 2;				// stun always lasts 2 beats
 	}
 
 	public void gimp(){
+		Vector3 tpos = new Vector3 (px, py, 0);			// establish the location of the sprite
+		Quaternion trot = gameObject.transform.rotation;	// modify rotation so arrow points down
+		trot.x = -180;
+		GameObject ai = Instantiate (attackIcon, tpos, trot);
+		Destroy (ai, 1.0f);
 		gimped = true;
 		gimpCounter = beatCounter;
 		gimpLimit = 2;				// gimp lasts for a couple beats
 	}
 
 	public void heal(int hp){
+		Vector3 tpos = new Vector3 (px, py, 0);			// establish the location of the sprite
+		GameObject hi = Instantiate (healIcon, tpos, gameObject.transform.rotation);
+		Destroy (hi, 1.0f);
 		int newHP = health + hp;	// get new health 
 		if (newHP <= maxHP) {		// prevent hp overflow
 			health = newHP;

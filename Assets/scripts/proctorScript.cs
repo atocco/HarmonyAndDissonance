@@ -63,17 +63,22 @@ public class proctorScript : MonoBehaviour {
 		}
 
 		if (gameOver == true) {
-			if (win == true) {
-				// you win!!!
-				this.GetComponent<TextMesh> ().text = "You Won!";
-				this.GetComponent<MeshRenderer> ().enabled = true;
-				Time.timeScale = 0.0f; // stop game
-			} else {
-				// you lose!!!
-				this.GetComponent<TextMesh> ().text = "You Lost :(";
-				this.GetComponent<MeshRenderer> ().enabled = true;
-				Time.timeScale = 0.0f; // stop game
-			}
+			Invoke ("endFight", 2.0f);
 		}
 	}
+
+	private void endFight(){
+		if (win == true) {
+			// you win!!!
+			this.GetComponent<TextMesh> ().text = "You Won!";
+			this.GetComponent<MeshRenderer> ().enabled = true;
+			Time.timeScale = 0.0f; // stop game
+		} else {
+			// you lose!!!
+			this.GetComponent<TextMesh> ().text = "You Lost :(";
+			this.GetComponent<MeshRenderer> ().enabled = true;
+			Time.timeScale = 0.0f; // stop game
+		}
+	}
+
 }

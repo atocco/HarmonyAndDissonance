@@ -12,6 +12,12 @@ public class crop_duster : MonoBehaviour {
 	private int actionCycle;		// modulus value that keeps track of where the duster is in his cycle
 	public GameObject[] players;	// the players
 	private boss_object boss;		// get generic boss script
+	// get sounds set up
+	public AudioClip gustAud;
+	public AudioClip dustAud;
+	public AudioClip windBladeAud;
+	public AudioClip telegraphAud;
+	private AudioSource audsrc;
 
 	// Use this for initialization
 	void Start () {
@@ -23,6 +29,8 @@ public class crop_duster : MonoBehaviour {
 		boss = this.GetComponent<boss_object> ();
 		// get animations
 		animator = this.GetComponent<Animator> ();
+		// get audio stuff
+		audsrc = this.GetComponent<AudioSource> ();
 	}
 	
 	// LateUpdate is called once per frame after the normal update so boss attacks have lower priority
@@ -67,7 +75,9 @@ public class crop_duster : MonoBehaviour {
 		int dmg = 0;
 		int index = 0;	// keep track of who to hit
 
-		animator.SetTrigger ("gust"); // play animation
+		animator.SetTrigger ("gust");	 // play animation
+		audsrc.clip = gustAud;			// play sound
+		audsrc.Play ();
 
 		if (boss.gimped == true) {				// assign damage
 			dmg = boss.basedmg / 2;
@@ -88,6 +98,8 @@ public class crop_duster : MonoBehaviour {
 		int dmg = 0;
 
 		animator.SetTrigger ("gust");	// play animation
+		audsrc.clip = windBladeAud;			// play sound
+		audsrc.Play ();
 
 		if (boss.gimped == true) {				// assign damage
 			dmg = boss.basedmg;
@@ -103,6 +115,8 @@ public class crop_duster : MonoBehaviour {
 		int dmg = 0;
 
 		animator.SetTrigger ("pesticide"); // play animation
+		audsrc.clip = dustAud;			// play sound
+		audsrc.Play ();
 
 		if (boss.gimped == true) {				// assign damage
 			dmg = boss.basedmg / 2;

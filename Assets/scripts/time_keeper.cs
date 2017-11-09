@@ -48,7 +48,7 @@ public class time_keeper : MonoBehaviour {
 	private void BeatHit(){							// beat related actions only trigger when the music starts
 		beatCounter++;
 		spriteIndex++;
-		spriteIndex = spriteIndex % 4;
+		spriteIndex = spriteIndex % 12;
 		currsprite.sprite = sprites [spriteIndex];	// swapping the sprite rendered for the rhythm meter
 		Invoke ("invalidate", input_window);		// after the input window time passes, player can't input
 	}
