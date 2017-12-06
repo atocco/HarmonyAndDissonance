@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class music_player : MonoBehaviour {
 
-	private float startDelay = 3f; // Number of seconds to delay the start of audio playback.
+	public float startDelay; // Number of seconds to delay the start of audio playback.
 	private AudioSource audsrc;
 
 	// Use this for initialization

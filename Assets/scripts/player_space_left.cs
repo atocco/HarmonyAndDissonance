@@ -27,10 +27,14 @@ public class player_space_left : MonoBehaviour {
 		playerOnSpace = positionscript.playerOnSpace [2];	// index two is LEFT
 
 		if (Input.GetKeyDown (KeyCode.LeftArrow) && timescript.validInput) {	//check for timing + input
-			Debug.Log("left key was pressed");
-			abilityscript.pushAbility (playerOnSpace);
+			//Debug.Log("left key was pressed");
+			if (abilityscript.oneInput == 0) {
+				abilityscript.pushAbility (playerOnSpace);
+			} else {
+				abilityscript.popAbilities ();
+			}
 		} else if (Input.GetKeyDown (KeyCode.LeftArrow) && !timescript.validInput) {
-			Debug.Log ("left key was missed");
+			//Debug.Log ("left key was missed");
 			abilityscript.popAbilities ();
 		}
 	}

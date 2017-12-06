@@ -24,10 +24,10 @@ public class player_object : MonoBehaviour {
 
 	private time_keeper timekeeper;	// to keep track of the beats that have passed
 
-	private float ogTimewindow;		// initial value of timing window
-	private bool harmonizing;		// for harmony ability
-	private int harmonyCounter;		// keeps track of harmony timing
-	private int harmonyLimit;		// holds the number of beats harmony ability lasts
+	//private float ogTimewindow;		// initial value of timing window
+	//private bool harmonizing;		// for harmony ability
+	//private int harmonyCounter;		// keeps track of harmony timing
+	//private int harmonyLimit;		// holds the number of beats harmony ability lasts
 
 	private int beatCounter;
 
@@ -35,11 +35,12 @@ public class player_object : MonoBehaviour {
 	private Color basecolor;
 
 	// effect icons and player pos
-	private GameObject empowerIcon;
-	private GameObject defendIcon;
-	private GameObject poisonIcon;
-	private GameObject harmonizeIcon;
-	private GameObject healIcon;
+	public GameObject empowerIcon;
+	public GameObject defendIcon;
+	public GameObject poisonIcon;
+	private GameObject pi;			// the temp poison icon needs to be global
+	//private GameObject harmonizeIcon;
+	public GameObject healIcon;
 	private float px;
 	private float py;
 
@@ -48,7 +49,7 @@ public class player_object : MonoBehaviour {
 		GameObject tk = GameObject.FindGameObjectWithTag ("timekeeper");
 		timekeeper = tk.GetComponent<time_keeper> ();
 		// record timing stuff
-		ogTimewindow = timekeeper.input_window;
+		//ogTimewindow = timekeeper.input_window;
 		// setting status variables
 		empowered = false;
 		poisoned = false;
@@ -60,11 +61,11 @@ public class player_object : MonoBehaviour {
 		r = this.GetComponent<SpriteRenderer> ();
 		basecolor = r.color;
 		// get status icons
-		empowerIcon = GameObject.Find ("atk");
-		defendIcon = GameObject.Find ("def");
-		poisonIcon = GameObject.Find ("psn");
-		harmonizeIcon = GameObject.Find ("hrm");
-		healIcon = GameObject.Find ("heal");
+		//empowerIcon = GameObject.Find ("atk");
+		//defendIcon = GameObject.Find ("def");
+		//poisonIcon = GameObject.Find ("psn");
+		//harmonizeIcon = GameObject.Find ("hrm");
+		//healIcon = GameObject.Find ("heal");
 	}
 
 	void Update(){
@@ -73,14 +74,18 @@ public class player_object : MonoBehaviour {
 		px = this.transform.position.x;
 		py = this.transform.position.y;
 
-		if (poisoned == true && alive == true) {			// coloring for flavor
-			r.color = Color.green;
+		//if (poisoned == true && alive == true) {			// coloring for flavor
+		//	r.color = Color.green;
+		//}
+
+		if (poisoned == true && alive == false) {			// not poisoned if dead
+			Destroy (pi);
 		}
 
 		if (beatCounter != timekeeper.beatCounter){		// when a new beat hits apply effects
 			
 			if (poisoned == true){
-				this.applyPoison (2);	// take poison dmg
+				this.applyPoison (1);	// take poison dmg
 			}
 
 			if (empowered == true) {
@@ -95,12 +100,12 @@ public class player_object : MonoBehaviour {
 				}
 			}
 
-			if (harmonizing == true) {
-				if (harmonyLimit == (beatCounter - harmonyCounter)) {		// check if time limit up for harmonizing
-					harmonizing = false;
-					timekeeper.input_window = ogTimewindow;					// reset timing window length
-				}
-			}
+			//if (harmonizing == true) {
+			//	if (harmonyLimit == (beatCounter - harmonyCounter)) {		// check if time limit up for harmonizing
+			//		harmonizing = false;
+			//		timekeeper.input_window = ogTimewindow;					// reset timing window length
+			//	}
+			//}
 
 			r.color = basecolor; 				// reset char color
 			beatCounter = timekeeper.beatCounter;		// update the beat counter
@@ -151,9 +156,9 @@ public class player_object : MonoBehaviour {
 
 	// status effect methods
 	public void poison(){
-		Vector3 tpos = new Vector3 (px, py, 0);			// establish the location of the sprite
-		GameObject pi = Instantiate (poisonIcon, tpos, gameObject.transform.rotation);
-		Destroy (pi, 1.0f);
+		Vector3 tpos = new Vector3 (px-.2f, py-1.7f, 0);			// establish the location of the sprite
+		pi = Instantiate (poisonIcon, tpos, gameObject.transform.rotation);
+		// Destroy (pi, 1.0f);
 		poisoned = true;
 	}
 
@@ -166,42 +171,43 @@ public class player_object : MonoBehaviour {
 	}
 
 	public void empower(){
-		Vector3 tpos = new Vector3 (px, py, 0);			// establish the location of the sprite
+		Vector3 tpos = new Vector3 (px+.2f, py-1.7f, 0);			// establish the location of the sprite
 		GameObject ei = Instantiate (empowerIcon, tpos, gameObject.transform.rotation);
-		Destroy (ei, 1.0f);
 		empowered = true;
 		empowerCounter = beatCounter;	// current beat is held
 		empowerLimit = 5;				// empower always lasts 5 beats
+		Destroy (ei, 0.75f * 5f);
 		dmg = basedmg + 10;				// empower is always + 10 dmg
 	}
 
 	public void defend(){
-		Vector3 tpos = new Vector3 (px, py, 0);			// establish the location of the sprite
+		Vector3 tpos = new Vector3 (px+.2f, py-1.7f, 0);			// establish the location of the sprite
 		GameObject di = Instantiate (defendIcon, tpos, gameObject.transform.rotation);
-		Destroy (di, 1.0f);
 		defending = true;
 		defenseCounter = beatCounter;
 		defenseLimit = 3;
+		Destroy (di, 0.75f * 3f);
 	}
 		
 	public void cured(){
 		poisoned = false;
+		Destroy (pi);
 	}
 
 	// unique player abilities
-	public void buffHarmony(){
-		// doubles window of time players have for input
-		if (!harmonizing){			// can't stack
-
-			Vector3 tpos = new Vector3 (px, py, 0);			// establish the location of the sprite
-			GameObject hi = Instantiate (harmonizeIcon, tpos, gameObject.transform.rotation);
-			Destroy (hi, 1.0f);
-
-			harmonizing = true;
-			harmonyCounter = beatCounter;
-			harmonyLimit = 9;
-			timekeeper.input_window = ogTimewindow * 2.0f;
-		}
-	}
+	//public void buffHarmony(){
+	//	// doubles window of time players have for input
+	//	if (!harmonizing){			// can't stack
+	//
+	//		Vector3 tpos = new Vector3 (px, py, 0);			// establish the location of the sprite
+	//		GameObject hi = Instantiate (harmonizeIcon, tpos, gameObject.transform.rotation);
+	//		Destroy (hi, 1.0f);
+	//
+	//		harmonizing = true;
+	//		harmonyCounter = beatCounter;
+	//		harmonyLimit = 9;
+	//		timekeeper.input_window = ogTimewindow * 2.0f;
+	//	}
+	//}
 
 }

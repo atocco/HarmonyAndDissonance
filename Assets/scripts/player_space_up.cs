@@ -27,10 +27,14 @@ public class player_space_up : MonoBehaviour {
 		playerOnSpace = positionscript.playerOnSpace [0];	// index zero is UP
 
 		if (Input.GetKeyDown (KeyCode.UpArrow) && timescript.validInput) {	//check for timing + input
-			Debug.Log ("up key was pressed");
-			abilityscript.pushAbility (playerOnSpace);
+			//Debug.Log ("up key was pressed");
+			if (abilityscript.oneInput == 0) {
+				abilityscript.pushAbility (playerOnSpace);
+			} else {
+				abilityscript.popAbilities ();
+			}
 		} else if (Input.GetKeyDown (KeyCode.UpArrow) && !timescript.validInput) {
-			Debug.Log ("up key was missed");
+			//Debug.Log ("up key was missed");
 			abilityscript.popAbilities ();
 		}
 	}

@@ -27,10 +27,15 @@ public class player_space_down : MonoBehaviour {
 		playerOnSpace = positionscript.playerOnSpace [1];	// index one is DOWN
 
 		if (Input.GetKeyDown (KeyCode.DownArrow) && timescript.validInput) {	//check for timing + input
-			Debug.Log("down key was pressed");
-			abilityscript.pushAbility (playerOnSpace);
+			//Debug.Log("down key was pressed");
+			if (abilityscript.oneInput == 0) {
+				abilityscript.pushAbility (playerOnSpace);
+			} else {
+				abilityscript.popAbilities ();
+			}
+
 		} else if (Input.GetKeyDown (KeyCode.DownArrow) && !timescript.validInput) {
-			Debug.Log ("down key was missed");
+			//Debug.Log ("down key was missed");
 			abilityscript.popAbilities ();
 		}
 	}

@@ -27,10 +27,14 @@ public class player_space_right : MonoBehaviour {
 		playerOnSpace = positionscript.playerOnSpace [3];	// index three is RIGHT
 
 		if (Input.GetKeyDown (KeyCode.RightArrow) && timescript.validInput) {	//check for timing + input
-			Debug.Log("right key was pressed");
-			abilityscript.pushAbility (playerOnSpace);
+			//Debug.Log("right key was pressed");
+			if (abilityscript.oneInput == 0) {
+				abilityscript.pushAbility (playerOnSpace);
+			} else {
+				abilityscript.popAbilities ();
+			}
 		} else if (Input.GetKeyDown (KeyCode.RightArrow) && !timescript.validInput) {
-			Debug.Log ("right key was missed");
+			//Debug.Log ("right key was missed");
 			abilityscript.popAbilities ();
 		}
 	}

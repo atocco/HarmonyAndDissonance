@@ -18,6 +18,10 @@ public class crop_duster : MonoBehaviour {
 	public AudioClip windBladeAud;
 	public AudioClip telegraphAud;
 	private AudioSource audsrc;
+	// positioning info and attack animations for directional attacks
+	public GameObject[] dusts;		// UP, DOWN, LEFT, RIGHT
+	public GameObject[] gusts;
+
 
 	// Use this for initialization
 	void Start () {
@@ -29,6 +33,7 @@ public class crop_duster : MonoBehaviour {
 		boss = this.GetComponent<boss_object> ();
 		// get animations
 		animator = this.GetComponent<Animator> ();
+		animator.speed = .75f;		// because this is an 80bpm fight
 		// get audio stuff
 		audsrc = this.GetComponent<AudioSource> ();
 	}
@@ -40,11 +45,10 @@ public class crop_duster : MonoBehaviour {
 				
 				if (actionCycle == 7) {		// he telegraphs his attack 4 beats ahead
 					// telegraph
-					boss.telegraph ();		// change color
+					audsrc.clip = telegraphAud;			// play sound
+					audsrc.Play ();				// wind up sound
 				}
 				if (actionCycle == 11) {		// he attacks
-
-					boss.endTelegraph (); 	// end telegraph color
 
 					int atk = Random.Range (0, 5);
 					if (atk == 4) {
@@ -70,12 +74,12 @@ public class crop_duster : MonoBehaviour {
 
 
 	// attacks
-	private void gust(){		// basic attack that hits 3 characters
-		int notHit = Random.Range (0,4);	// pick number 0 thru 3
+	private void gust(){		// basic attack that hits all characters
 		int dmg = 0;
-		int index = 0;	// keep track of who to hit
 
+		this.transform.localScale = new Vector3 (0.3f, 0.3f, 1f);
 		animator.SetTrigger ("gust");	 // play animation
+		this.transform.localScale = new Vector3 (0.15f, 0.15f, 1f);
 		audsrc.clip = gustAud;			// play sound
 		audsrc.Play ();
 
@@ -86,10 +90,7 @@ public class crop_duster : MonoBehaviour {
 		}
 
 		foreach (GameObject p in players){		// hit players
-			if (index != notHit) {
-				p.GetComponent<player_object> ().takeHit (dmg);
-			}
-			index++;	// increment
+			p.GetComponent<player_object> ().takeHit (dmg);
 		}
 	}
 
@@ -97,9 +98,35 @@ public class crop_duster : MonoBehaviour {
 		int hit = Random.Range(0,4);
 		int dmg = 0;
 
-		animator.SetTrigger ("gust");	// play animation
+		//animator.SetTrigger ("gust");	// play animation
 		audsrc.clip = windBladeAud;			// play sound
 		audsrc.Play ();
+
+		// find the player position and playing correct attack animation for it
+		string targetdir = players [hit].GetComponent<player_object> ().position;
+		GameObject clone;
+		Vector3 pos = players [hit].GetComponent<player_object> ().transform.position;		// establish the location of the sprite
+		switch(targetdir){
+		case "up":
+			clone = Instantiate (gusts[0], pos, this.transform.rotation);	// create the sprite
+			Destroy (clone, clone.GetComponent<Animator> ().GetCurrentAnimatorStateInfo (0).length);
+			break;
+		case "down":
+			clone = Instantiate (gusts[1], pos, this.transform.rotation);	// create the sprite
+			Destroy (clone, clone.GetComponent<Animator> ().GetCurrentAnimatorStateInfo (0).length);
+			break;
+		case "left":
+			clone = Instantiate (gusts[2], pos, this.transform.rotation);	// create the sprite
+			Destroy (clone, clone.GetComponent<Animator> ().GetCurrentAnimatorStateInfo (0).length);
+			break;
+		case "right":
+			clone = Instantiate (gusts[3], pos, this.transform.rotation);	// create the sprite
+			Destroy (clone, clone.GetComponent<Animator> ().GetCurrentAnimatorStateInfo (0).length);
+			break;
+		default:
+			Debug.Log("error in the gust animation script!!!");
+			break;
+		}
 
 		if (boss.gimped == true) {				// assign damage
 			dmg = boss.basedmg;
@@ -114,9 +141,35 @@ public class crop_duster : MonoBehaviour {
 		int hit = Random.Range(0,4);
 		int dmg = 0;
 
-		animator.SetTrigger ("pesticide"); // play animation
+		//animator.SetTrigger ("pesticide"); // play animation
 		audsrc.clip = dustAud;			// play sound
 		audsrc.Play ();
+
+		// find the player position and playing correct attack animation for it
+		string targetdir = players [hit].GetComponent<player_object> ().position;
+		GameObject clone;
+		Vector3 pos = players [hit].GetComponent<player_object> ().transform.position;		// establish the location of the sprite
+		switch(targetdir){
+		case "up":
+			clone = Instantiate (dusts[0], pos, this.transform.rotation);	// create the sprite
+			Destroy (clone, clone.GetComponent<Animator> ().GetCurrentAnimatorStateInfo (0).length);
+			break;
+		case "down":
+			clone = Instantiate (dusts[1], pos, this.transform.rotation);	// create the sprite
+			Destroy (clone, clone.GetComponent<Animator> ().GetCurrentAnimatorStateInfo (0).length);
+			break;
+		case "left":
+			clone = Instantiate (dusts[2], pos, this.transform.rotation);	// create the sprite
+			Destroy (clone, clone.GetComponent<Animator> ().GetCurrentAnimatorStateInfo (0).length);
+			break;
+		case "right":
+			clone = Instantiate (dusts[3], pos, this.transform.rotation);	// create the sprite
+			Destroy (clone, clone.GetComponent<Animator> ().GetCurrentAnimatorStateInfo (0).length);
+			break;
+		default:
+			Debug.Log("error in the dust animation script!!!");
+			break;
+		}
 
 		if (boss.gimped == true) {				// assign damage
 			dmg = boss.basedmg / 2;

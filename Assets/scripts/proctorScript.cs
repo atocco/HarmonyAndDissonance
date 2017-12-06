@@ -22,6 +22,13 @@ public class proctorScript : MonoBehaviour {
 	private bool win;
 	private int deadPlayers;
 
+	// countdown icons and stuff
+	public GameObject upicon;
+	public GameObject downicon;
+	public GameObject lefticon;
+	public GameObject righticon;
+	public GameObject countdown;
+
 	// Use this for initialization
 	void Start () {
 		gameOver = false;
@@ -31,10 +38,22 @@ public class proctorScript : MonoBehaviour {
 		alivebee = true;
 		alivebird = true;
 		aliverabbit = true;
+
+		// pre battle stuff
+		countdown.GetComponent<Animator> ().speed = 1f/12f;
+		Destroy (countdown, countdown.GetComponent<Animator> ().GetCurrentAnimatorClipInfo (0).Length*3.75f);
 	}
 	
 	// Update is called once per frame
 	void Update () {
+
+		if (!countdown) {
+			Destroy (upicon, 1f);
+			Destroy (downicon, 1f);
+			Destroy (lefticon, 1f);
+			Destroy (righticon, 1f);
+		}
+
 		if (panda.GetComponent<player_object> ().alive != alivepanda){
 			deadPlayers++;
 			alivepanda = false;
@@ -63,7 +82,7 @@ public class proctorScript : MonoBehaviour {
 		}
 
 		if (gameOver == true) {
-			Invoke ("endFight", 2.0f);
+			Invoke ("endFight", 3.0f);
 		}
 	}
 

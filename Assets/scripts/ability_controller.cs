@@ -14,24 +14,18 @@ public class ability_controller : MonoBehaviour {
 	public GameObject rabbit;
 	private time_keeper timekeeper;
 	public GameObject boss;
+	public GameObject fc;
 	// get the logger output
 	//public GameObject textOut;
 
-	// Use this for initialization
-	void Start () {
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	}
 
 	// this function is called to determine the ability to cast based on the input stack
 	public void parseAbility(string[] stack){
 		// do attack animation
-		panda.GetComponent<player_fight_animations> ().abilityCast ();
-		bee.GetComponent<player_fight_animations> ().abilityCast ();
-		bird.GetComponent<player_fight_animations> ().abilityCast ();
-		rabbit.GetComponent<player_fight_animations> ().abilityCast ();
+		//panda.GetComponent<player_fight_animations> ().abilityCast ();
+		//bee.GetComponent<player_fight_animations> ().abilityCast ();
+		//bird.GetComponent<player_fight_animations> ().abilityCast ();
+		//rabbit.GetComponent<player_fight_animations> ().abilityCast ();
 
 		// reset temp variables
 		int dmg = 0;
@@ -50,6 +44,7 @@ public class ability_controller : MonoBehaviour {
 					panda.GetComponent<player_object> ().cured ();
 					bird.GetComponent<player_object> ().defend ();				// bird tertiary
 					boss.GetComponent<boss_object> ().takeHit (dmg);			// assign dmg
+					fc.GetComponent<flashy_ability_controller> ().pandaCast ();
 
 					break;
 				case "rabbit":
@@ -60,6 +55,7 @@ public class ability_controller : MonoBehaviour {
 					panda.GetComponent<player_object> ().cured ();
 					boss.GetComponent<boss_object> ().poison ();				// rabbit tertiary
 					boss.GetComponent<boss_object> ().takeHit (dmg);			// assign dmg
+					fc.GetComponent<flashy_ability_controller> ().pandaCast ();
 
 					break;
 				}
@@ -73,6 +69,7 @@ public class ability_controller : MonoBehaviour {
 					health = bee.GetComponent<player_object> ().basedmg * 2;	// heal the bee
 					bee.GetComponent<player_object> ().heal (health);
 					boss.GetComponent<boss_object> ().takeHit (dmg);			// hurt boss
+					fc.GetComponent<flashy_ability_controller> ().pandaCast ();
 
 					break;
 				case "rabbit":
@@ -81,6 +78,7 @@ public class ability_controller : MonoBehaviour {
 					panda.GetComponent<player_object> ().empower ();			// empower primary char
 					boss.GetComponent<boss_object> ().poison ();				// rabbit tertiary
 					boss.GetComponent<boss_object> ().takeHit (dmg);			// hurt boss
+					fc.GetComponent<flashy_ability_controller> ().pandaCast ();
 
 					break;
 				}
@@ -90,18 +88,20 @@ public class ability_controller : MonoBehaviour {
 				case "bird":
 					// panda, rabbit, bird
 					dmg = panda.GetComponent<player_object> ().attack () + 5;	// deal panda dmg
-					boss.GetComponent<boss_object> ().stun ();				// rabbit secondary
+					boss.GetComponent<boss_object> ().gimp ();				// rabbit secondary
 					bird.GetComponent<player_object> ().defend ();				// bird tertiary
 					boss.GetComponent<boss_object> ().takeHit (dmg);			// hurt boss
+					fc.GetComponent<flashy_ability_controller> ().pandaCast ();
 
 					break;
 				case "bee":
 					// panda, rabbit, bee
 					dmg = panda.GetComponent<player_object> ().attack () + 5;	// deal panda dmg
-					boss.GetComponent<boss_object> ().stun ();				// rabbit secondary
+					boss.GetComponent<boss_object> ().gimp ();				// rabbit secondary
 					health = bee.GetComponent<player_object> ().basedmg * 2;	// heal the bee
 					bee.GetComponent<player_object> ().heal (health);
 					boss.GetComponent<boss_object> ().takeHit (dmg);			// hurt boss
+					fc.GetComponent<flashy_ability_controller> ().pandaCast ();
 
 					break;
 				}
@@ -122,6 +122,7 @@ public class ability_controller : MonoBehaviour {
 					bird.GetComponent<player_object> ().heal(health);
 					bird.GetComponent<player_object> ().cured ();
 					bird.GetComponent<player_object> ().defend ();				// bird tertiary
+					fc.GetComponent<flashy_ability_controller> ().beeCast ();
 					// panda is useless here
 
 					break;
@@ -135,6 +136,7 @@ public class ability_controller : MonoBehaviour {
 					rabbit.GetComponent<player_object> ().heal(health);
 					rabbit.GetComponent<player_object> ().cured ();
 					boss.GetComponent<boss_object> ().poison ();				// rabbit tertiary
+					fc.GetComponent<flashy_ability_controller> ().beeCast ();
 					// panda is useless here
 
 					break;
@@ -151,6 +153,7 @@ public class ability_controller : MonoBehaviour {
 					bee.GetComponent<player_object> ().cured ();
 					bird.GetComponent<player_object> ().heal(health);
 					bird.GetComponent<player_object> ().cured ();
+					fc.GetComponent<flashy_ability_controller> ().beeCast ();
 					// bird is useless here
 					// panda is useless here
 
@@ -164,6 +167,7 @@ public class ability_controller : MonoBehaviour {
 					bee.GetComponent<player_object> ().cured ();
 					bird.GetComponent<player_object> ().heal(health);
 					bird.GetComponent<player_object> ().cured ();
+					fc.GetComponent<flashy_ability_controller> ().beeCast ();
 					// bird is useless here
 					// rabbit is useless here
 
@@ -182,6 +186,7 @@ public class ability_controller : MonoBehaviour {
 					bird.GetComponent<player_object> ().heal(health);
 					bird.GetComponent<player_object> ().cured ();
 					bird.GetComponent<player_object> ().defend ();				// bird tertiary
+					fc.GetComponent<flashy_ability_controller> ().beeCast ();
 					// rabbit is useless
 
 					break;
@@ -194,6 +199,7 @@ public class ability_controller : MonoBehaviour {
 					bee.GetComponent<player_object> ().cured ();
 					rabbit.GetComponent<player_object> ().heal(health);
 					rabbit.GetComponent<player_object> ().cured ();
+					fc.GetComponent<flashy_ability_controller> ().beeCast ();
 					// rabbit is useless
 					// panda is useless
 
@@ -209,23 +215,27 @@ public class ability_controller : MonoBehaviour {
 				case "panda":
 					// bird, bee, panda
 					dmg = bird.GetComponent<player_object> ().attack ();	// bird primary hits
-					bird.GetComponent<player_object> ().buffHarmony ();		// bird harmonizes
+					bee.GetComponent<player_object> ().defend ();		// bird protecc
+					panda.GetComponent<player_object> ().defend ();
 					health = bee.GetComponent<player_object> ().basedmg;	// heal the primary char
 					bird.GetComponent<player_object> ().cured ();			// cure primary char
 					bird.GetComponent<player_object> ().heal (health);
 					dmg = dmg + 5;											// panda tertiary
 					boss.GetComponent<boss_object> ().takeHit (dmg);		// hurt boss
+					fc.GetComponent<flashy_ability_controller> ().birdCast ();
 
 					break;
 				case "rabbit":
 					// bird, bee, rabbit
 					dmg = bird.GetComponent<player_object> ().attack ();	// bird primary hits
-					bird.GetComponent<player_object> ().buffHarmony ();		// bird harmonizes
+					bee.GetComponent<player_object> ().defend ();		// bird protecc
+					rabbit.GetComponent<player_object> ().defend ();
 					health = bee.GetComponent<player_object> ().basedmg;	// heal the primary char
 					bird.GetComponent<player_object> ().cured ();			// cure primary char
 					bird.GetComponent<player_object> ().heal (health);
 					boss.GetComponent<boss_object> ().poison ();				// rabbit tertiary
 					boss.GetComponent<boss_object> ().takeHit (dmg);		// hurt boss
+					fc.GetComponent<flashy_ability_controller> ().birdCast ();
 
 					break;
 				}
@@ -235,20 +245,24 @@ public class ability_controller : MonoBehaviour {
 				case "bee":
 					// bird, panda, bee
 					dmg = bird.GetComponent<player_object> ().attack ();	// bird primary hits
-					bird.GetComponent<player_object> ().buffHarmony ();		// bird harmonizes
+					bee.GetComponent<player_object> ().defend ();		// bird protecc
+					panda.GetComponent<player_object> ().defend ();
 					dmg = dmg + 10;											// panda secondary
 					health = bee.GetComponent<player_object> ().basedmg * 2;	// heal the bee
 					bee.GetComponent<player_object> ().heal (health);
 					boss.GetComponent<boss_object> ().takeHit (dmg);		// hurt boss
+					fc.GetComponent<flashy_ability_controller> ().birdCast ();
 
 					break;
 				case "rabbit":
 					// bird, panda, rabbit
 					dmg = bird.GetComponent<player_object> ().attack ();	// bird primary hits
-					bird.GetComponent<player_object> ().buffHarmony ();		// bird harmonizes
+					rabbit.GetComponent<player_object> ().defend ();		// bird protecc
+					panda.GetComponent<player_object> ().defend ();
 					dmg = dmg + 10;											// panda secondary
 					boss.GetComponent<boss_object> ().poison ();				// rabbit tertiary
 					boss.GetComponent<boss_object> ().takeHit (dmg);		// hurt boss
+					fc.GetComponent<flashy_ability_controller> ().birdCast ();
 
 					break;
 				}
@@ -258,20 +272,24 @@ public class ability_controller : MonoBehaviour {
 				case "bee":
 					// bird, rabbit, bee
 					dmg = bird.GetComponent<player_object> ().attack ();	// bird primary hits
-					bird.GetComponent<player_object> ().buffHarmony ();		// bird harmonizes
-					boss.GetComponent<boss_object> ().stun ();				// rabbit secondary
+					bee.GetComponent<player_object> ().defend ();		// bird protecc
+					rabbit.GetComponent<player_object> ().defend ();
+					boss.GetComponent<boss_object> ().gimp ();				// rabbit secondary
 					health = bee.GetComponent<player_object> ().basedmg * 2;	// heal the bee
 					bee.GetComponent<player_object> ().heal (health);
 					boss.GetComponent<boss_object> ().takeHit (dmg);		// hurt boss
+					fc.GetComponent<flashy_ability_controller> ().birdCast ();
 
 					break;
 				case "panda":
 					// bird, rabbit, panda
 					dmg = bird.GetComponent<player_object> ().attack ();	// bird primary hits
-					bird.GetComponent<player_object> ().buffHarmony ();		// bird harmonizes
-					boss.GetComponent<boss_object> ().stun ();				// rabbit secondary
+					rabbit.GetComponent<player_object> ().defend ();		// bird protecc
+					panda.GetComponent<player_object> ().defend ();
+					boss.GetComponent<boss_object> ().gimp ();				// rabbit secondary
 					dmg = dmg + 5; 											// panda tertiary
 					boss.GetComponent<boss_object> ().takeHit (dmg);		// hurt boss
+					fc.GetComponent<flashy_ability_controller> ().birdCast ();
 
 					break;
 				}
@@ -285,23 +303,25 @@ public class ability_controller : MonoBehaviour {
 				case "bird":
 					// rabbit, bee, bird
 					dmg = rabbit.GetComponent<player_object> ().attack ();	// rabbit primary hits
-					boss.GetComponent<boss_object> ().gimp ();				// rabbit primary effect
+					boss.GetComponent<boss_object> ().stun ();				// rabbit primary effect
 					health = bee.GetComponent<player_object> ().basedmg;	// heal the primary char
 					rabbit.GetComponent<player_object> ().cured ();			// cure primary char
 					rabbit.GetComponent<player_object> ().heal (health);
 					bird.GetComponent<player_object> ().defend ();				// bird tertiary
 					boss.GetComponent<boss_object> ().takeHit (dmg);		// hurt boss
+					fc.GetComponent<flashy_ability_controller> ().rabbitCast ();
 
 					break;
 				case "panda":
 					// rabbit, bee, panda
 					dmg = rabbit.GetComponent<player_object> ().attack ();	// rabbit primary hits
-					boss.GetComponent<boss_object> ().gimp ();				// rabbit primary effect
+					boss.GetComponent<boss_object> ().stun ();				// rabbit primary effect
 					health = bee.GetComponent<player_object> ().basedmg;	// heal the primary char
 					rabbit.GetComponent<player_object> ().heal (health);
 					rabbit.GetComponent<player_object> ().cured ();			// cure primary char
 					dmg = dmg + 5;											// panda tertiary
 					boss.GetComponent<boss_object> ().takeHit (dmg);		// hurt boss
+					fc.GetComponent<flashy_ability_controller> ().rabbitCast ();
 
 					break;
 				}
@@ -311,20 +331,22 @@ public class ability_controller : MonoBehaviour {
 				case "bee":
 					// rabbit, bird, bee
 					dmg = rabbit.GetComponent<player_object> ().attack ();	// rabbit primary hits
-					boss.GetComponent<boss_object> ().gimp ();				// rabbit primary effect
+					boss.GetComponent<boss_object> ().stun ();				// rabbit primary effect
 					rabbit.GetComponent<player_object> ().empower ();			// empower primary char
 					health = bee.GetComponent<player_object> ().basedmg * 2;	// heal the bee
 					bee.GetComponent<player_object> ().heal (health);
 					boss.GetComponent<boss_object> ().takeHit (dmg);		// hurt boss
+					fc.GetComponent<flashy_ability_controller> ().rabbitCast ();
 
 					break;
 				case "panda":
 					// rabbit, bird, panda
 					dmg = rabbit.GetComponent<player_object> ().attack ();	// rabbit primary hits
-					boss.GetComponent<boss_object> ().gimp ();				// rabbit primary effect
+					boss.GetComponent<boss_object> ().stun ();				// rabbit primary effect
 					rabbit.GetComponent<player_object> ().empower ();			// empower primary char
 					dmg = dmg + 5;											// panda tertiary
 					boss.GetComponent<boss_object> ().takeHit (dmg);		// hurt boss
+					fc.GetComponent<flashy_ability_controller> ().rabbitCast ();
 
 					break;
 				}
@@ -334,20 +356,22 @@ public class ability_controller : MonoBehaviour {
 				case "bird":
 					// rabbit, panda, bird
 					dmg = rabbit.GetComponent<player_object> ().attack ();	// rabbit primary hits
-					boss.GetComponent<boss_object> ().gimp ();				// rabbit primary effect
+					boss.GetComponent<boss_object> ().stun ();				// rabbit primary effect
 					dmg = dmg + 10;											// panda secondary
 					bird.GetComponent<player_object> ().defend ();			// bird tertiary
 					boss.GetComponent<boss_object> ().takeHit (dmg);		// hurt boss
+					fc.GetComponent<flashy_ability_controller> ().rabbitCast ();
 
 					break;
 				case "bee":
 					// rabbit, panda, bee
 					dmg = rabbit.GetComponent<player_object> ().attack ();	// rabbit primary hits
-					boss.GetComponent<boss_object> ().gimp ();				// rabbit primary effect
+					boss.GetComponent<boss_object> ().stun ();				// rabbit primary effect
 					dmg = dmg + 10;											// panda secondary
 					health = bee.GetComponent<player_object> ().basedmg * 2;	// heal the bee
 					bee.GetComponent<player_object> ().heal (health);
 					boss.GetComponent<boss_object> ().takeHit (dmg);		// hurt boss
+					fc.GetComponent<flashy_ability_controller> ().rabbitCast ();
 
 					break;
 				}

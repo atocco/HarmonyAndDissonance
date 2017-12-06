@@ -47,9 +47,12 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\scripts\ability_bar.cs" />
+     <Compile Include="Assets\scripts\ability_bar_timer.cs" />
      <Compile Include="Assets\scripts\ability_controller.cs" />
      <Compile Include="Assets\scripts\boss_object.cs" />
+     <Compile Include="Assets\scripts\confirmIcon.cs" />
      <Compile Include="Assets\scripts\crop_duster.cs" />
+     <Compile Include="Assets\scripts\flashy_ability_controller.cs" />
      <Compile Include="Assets\scripts\health_bar.cs" />
      <Compile Include="Assets\scripts\music_player.cs" />
      <Compile Include="Assets\scripts\player_fight_animations.cs" />
