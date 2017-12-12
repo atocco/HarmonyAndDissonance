@@ -82,6 +82,9 @@ public class boss_object : MonoBehaviour {
 			//this.GetComponent<SpriteRenderer> ().enabled = false;
 			r.color = realcolor;
 			this.GetComponent<Animator> ().SetInteger ("state", 5); // 5 means the death state
+			this.GetComponent<SpriteRenderer> ().sortingOrder = -1;
+			poisoned = false;
+			stunned = false;
 
 		}
 

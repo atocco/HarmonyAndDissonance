@@ -1,16 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 // this guy ends the game if you lost or killed the boss
 
 public class proctorScript : MonoBehaviour {
+
+	private bool pls;
 
 	public GameObject panda;
 	public GameObject rabbit;
 	public GameObject bee;
 	public GameObject bird;
 	public GameObject boss;
+	public GameObject scriptmonkey;
+	public GameObject fancyContro;
+	public GameObject music;
 
 	// tracking shit
 	private bool alivepanda;
@@ -29,6 +35,10 @@ public class proctorScript : MonoBehaviour {
 	public GameObject righticon;
 	public GameObject countdown;
 
+	// win / lost text and sound
+	public GameObject victory;
+	public GameObject defeat;
+
 	// Use this for initialization
 	void Start () {
 		gameOver = false;
@@ -42,6 +52,8 @@ public class proctorScript : MonoBehaviour {
 		// pre battle stuff
 		countdown.GetComponent<Animator> ().speed = 1f/12f;
 		Destroy (countdown, countdown.GetComponent<Animator> ().GetCurrentAnimatorClipInfo (0).Length*3.75f);
+
+		pls = true;
 	}
 	
 	// Update is called once per frame
@@ -81,7 +93,13 @@ public class proctorScript : MonoBehaviour {
 			win = false;
 		}
 
-		if (gameOver == true) {
+		if (gameOver == true && pls) {
+			pls = false;
+			Destroy (scriptmonkey.GetComponent<ability_bar> ());
+			scriptmonkey.GetComponent<ability_controller> ().enabled = false;
+			fancyContro.GetComponent<flashy_ability_controller> ().enabled = false;
+			music.GetComponent<AudioSource> ().enabled = false;
+			boss.GetComponent<crop_duster> ().enabled = false;
 			Invoke ("endFight", 3.0f);
 		}
 	}
@@ -89,15 +107,17 @@ public class proctorScript : MonoBehaviour {
 	private void endFight(){
 		if (win == true) {
 			// you win!!!
-			this.GetComponent<TextMesh> ().text = "You Won!";
-			this.GetComponent<MeshRenderer> ().enabled = true;
-			Time.timeScale = 0.0f; // stop game
+			GameObject clone = Instantiate (victory);
+			Invoke ("stopGame", 5f);
 		} else {
 			// you lose!!!
-			this.GetComponent<TextMesh> ().text = "You Lost :(";
-			this.GetComponent<MeshRenderer> ().enabled = true;
-			Time.timeScale = 0.0f; // stop game
+			GameObject clone = Instantiate (defeat);
+			Invoke ("stopGame", 5f);
 		}
+	}
+
+	private void stopGame(){
+		SceneManager.LoadScene ("main_menu", LoadSceneMode.Single);
 	}
 
 }

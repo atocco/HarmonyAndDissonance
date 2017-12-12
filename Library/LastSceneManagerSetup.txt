@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/boss_battle_demo.unity
+- path: Assets/main_menu.unity
   isLoaded: 1
   isActive: 1

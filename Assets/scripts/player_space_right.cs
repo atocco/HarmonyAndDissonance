@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class player_space_right : MonoBehaviour {
 
-	private time_keeper timescript;
+	private ability_bar_timer timescript;
 	private ability_bar abilityscript;
 	private position_keeper positionscript;
 	private string playerOnSpace;	// name of character on this space
@@ -12,11 +12,11 @@ public class player_space_right : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		// find the time keeper and attached script
-		GameObject tk = GameObject.FindGameObjectWithTag ("timekeeper");
-		timescript = tk.GetComponent<time_keeper> ();
+
 		// find the ability bar and attached script
 		GameObject ab = GameObject.FindGameObjectWithTag ("abilitybar");
-		abilityscript = ab.GetComponent<ability_bar> ();
+		abilityscript = ab.GetComponentInChildren<ability_bar> ();
+		timescript = ab.GetComponent<ability_bar_timer> ();
 		// find the positioner and the attached script
 		GameObject ps = GameObject.FindGameObjectWithTag ("position");
 		positionscript = ps.GetComponent<position_keeper> ();
@@ -26,14 +26,14 @@ public class player_space_right : MonoBehaviour {
 	void Update () {
 		playerOnSpace = positionscript.playerOnSpace [3];	// index three is RIGHT
 
-		if (Input.GetKeyDown (KeyCode.RightArrow) && timescript.validInput) {	//check for timing + input
+		if (Input.GetKeyDown (KeyCode.RightArrow) && timescript.spriteIndex == 0) {	//check for timing + input
 			//Debug.Log("right key was pressed");
 			if (abilityscript.oneInput == 0) {
 				abilityscript.pushAbility (playerOnSpace);
 			} else {
 				abilityscript.popAbilities ();
 			}
-		} else if (Input.GetKeyDown (KeyCode.RightArrow) && !timescript.validInput) {
+		} else if (Input.GetKeyDown (KeyCode.RightArrow) && (timescript.spriteIndex == 1)) {
 			//Debug.Log ("right key was missed");
 			abilityscript.popAbilities ();
 		}

@@ -7,7 +7,7 @@ public class ability_bar_timer : MonoBehaviour {
 	// sprite controls
 	public Sprite[] sprites;
 	private SpriteRenderer currsprite;
-	private int spriteIndex;
+	public int spriteIndex;
 	//private Color basecolor;
 
 	// Use this for initialization

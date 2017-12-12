@@ -81,7 +81,7 @@ public class ability_bar : MonoBehaviour {
 	// all inputs on stack must be unique
 	public void pushAbility(string input) {
 
-		oneInput++;		// flag to make sure no duplicates
+		oneInput++;			// flag to make sure no duplicates
 		inputValid = true;		// flag for input
 
 		int check = System.Array.IndexOf (abilityStack, input);		// sanity check for input
@@ -114,7 +114,9 @@ public class ability_bar : MonoBehaviour {
 				popAbilities ();
 				inputValid = false;
 			}
-		} else if (oneInput != 1) {
+		}
+
+		if (oneInput != 1) {
 			popAbilities ();
 			inputValid = false;
 		}
@@ -173,14 +175,14 @@ public class ability_bar : MonoBehaviour {
 	// clears the ability stack and its icons
 	public void popAbilities() {
 		//Debug.Log ("drained ability queue");
-		this.resetAbFlag ();
+		//this.resetAbFlag ();
 		foreach(GameObject icon in iconStack){	// empty the icon stack if populated
 			if (icon != null) {
 				Destroy (icon);
 			}
 		}
 		if (cursor > 0) {
-			this.GetComponent<ability_bar_timer> ().badInput ();	// show red bar
+			this.GetComponentInParent<ability_bar_timer> ().badInput ();	// show red bar
 		}
 		iconStack = new GameObject[3];		// reset the stack
 		abilityStack = new string[3];		// empty the stack
@@ -192,7 +194,6 @@ public class ability_bar : MonoBehaviour {
 		Vector3 pos = this.transform.position;
 		GameObject clone = Instantiate (confirmIcon, pos, gameObject.transform.rotation);	// create the confirm sprite
 		Destroy (clone, .5f);		// remove after 2/4 second
-		this.resetAbFlag ();
 		foreach(GameObject icon in iconStack){	// empty the icon stack if populated
 			if (icon != null) {
 				Destroy (icon);
@@ -202,6 +203,7 @@ public class ability_bar : MonoBehaviour {
 		iconStack = new GameObject[3];		// reset the stack
 		abilityStack = new string[3];		// empty the stack
 		cursor = 0;							// reset the cursor
+		oneInput++;
 	}
 
 	// The following collection of methods display the ability icons in the appropriate place in the bar

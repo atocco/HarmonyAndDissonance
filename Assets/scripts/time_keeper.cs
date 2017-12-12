@@ -10,7 +10,7 @@ public class time_keeper : MonoBehaviour {
 	private static Song s;
 	private static float note_length;
 	public float input_window; 				// this is used with delta time to establish the time a player has before and after beat input to act
-	private static float frame_time;		// this is the time it takes for a note to pass
+	//private static float frame_time;		// this is the time it takes for a note to pass
 	private float time_passed;				// time since last beat
 	public float beatsPerMin;
 	//private SpriteRenderer currsprite;
@@ -36,12 +36,12 @@ public class time_keeper : MonoBehaviour {
 		music = GameObject.FindGameObjectWithTag ("music");		// load the music player
 		audsrc = music.GetComponent<AudioSource> ();
 		validInput = false;
-		frame_time = Time.fixedDeltaTime;				// time between frames is fixed
+		//frame_time = Time.fixedDeltaTime;				// time between frames is fixed
 		time_passed = 0.0f;
 
 		// get ability info
 		GameObject ag = GameObject.FindGameObjectWithTag ("abilitybar");
-		abscript = ag.GetComponent<ability_bar> ();
+		abscript = ag.GetComponentInChildren<ability_bar> ();
 		abtimer = ag.GetComponent<ability_bar_timer> ();
 		//Debug.Log ("time between notes:");
 		//Debug.Log (note_length);
@@ -51,12 +51,16 @@ public class time_keeper : MonoBehaviour {
 	
 	// FixedUpdate is called 30 times a second and before Update
 	void FixedUpdate () {
-		frame_time = Time.fixedDeltaTime;
-		time_passed = (time_passed + frame_time);
+		//frame_time = Time.fixedDeltaTime;
+		time_passed = (time_passed + Time.fixedDeltaTime);
 		if ((time_passed >= note_length) && Time.time >= 3f){		// if about a note length has passed / music is on...
 			//Debug.Log ("Time passed on beat hit:");
 			//Debug.Log (time_passed);
-			BeatHit ();											// trigger beat hit and,
+			//BeatHit ();											// trigger beat hit and,
+			beatCounter++;
+			abscript.resetAbFlag ();		// reset counter to stop multiple inputs per beat
+			Invoke ("invalidate", input_window);		// after the input window time passes, player can't input
+			audsrc.Play ();
 			time_passed = time_passed % note_length;		// reset time passed since last beat
 			//Debug.Log ("Time passed AFTER beat hit:");
 			//Debug.Log (time_passed);
@@ -66,19 +70,19 @@ public class time_keeper : MonoBehaviour {
 	// this function triggers actions when the beat hits
 	private void BeatHit(){							// beat related actions only trigger when the music starts
 		beatCounter++;
-		abscript.resetAbFlag ();		// reset counter to stop multiple inputs per beat
 		audsrc.Play ();
+		abscript.resetAbFlag ();		// reset counter to stop multiple inputs per beat
 		//spriteIndex++;
 		//spriteIndex = spriteIndex % 12;
 		//currsprite.sprite = sprites [spriteIndex];	// swapping the sprite rendered for the rhythm meter
-		Invoke ("invalidate", input_window - 0.01f);		// after the input window time passes, player can't input
+		Invoke ("invalidate", input_window);		// after the input window time passes, player can't input
 	}
 
 	private void invalidate(){
-		abtimer.switchSprite ();
 		validInput = false;
+		abtimer.switchSprite ();
 		float negativeSpace = note_length - (2.0f * input_window);	// the space of time the player can't act
-		Invoke ("validate", negativeSpace - 0.05f);							// after that time the player can act again
+		Invoke ("validate", negativeSpace - 0.03f);							// after that time the player can act again
 	}
 	private void validate(){
 		validInput = true;
